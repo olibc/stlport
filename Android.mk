@@ -37,6 +37,22 @@ libstlport_src_files := \
 libstlport_cflags := -D_GNU_SOURCE
 libstlport_cppflags := -fuse-cxa-atexit
 
+ifneq ($(WCHAR_SUPPORT),true)
+common_no_wchar_support_cflags := \
+    -D_STLP_NO_WCHAR_T=1 \
+    -D_STLP_NO_NATIVE_WIDE_FUNCTIONS=1 \
+    -D_STLP_NO_NATIVE_MBSTATE_T=1 \
+    -D_STLP_NO_MBSTATE_T=1
+
+libstlport_cppflags += $(common_no_wchar_support_cflags)
+libstlport_cflags += $(common_no_wchar_support_cflags)
+else
+common_no_wchar_support_cflags := \
+    -DWCHAR_SUPPORT
+libstlport_cppflags += $(common_no_wchar_support_cflags)
+libstlport_cflags += $(common_no_wchar_support_cflags)
+endif
+
 ##########################################
 include $(CLEAR_VARS)
 
